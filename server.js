@@ -10,8 +10,8 @@ app.use("/api/users", userRoute)
 app.use("/api/auth", authRoute)
 app.use("/api/posts", postsRoute)
 
-// app.get("/", (req, res) => {
-//   res.send("Hello")
-// })
+app.get("/", (req, res) => {
+  res.send("Hello")
+})
 
 app.listen(PORT, () => console.log("NodeJS"))
