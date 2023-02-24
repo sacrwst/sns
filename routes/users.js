@@ -46,12 +46,11 @@ router.get("/:id", async (req, res) => {
 })
 
 // follow
-// フォローする相手のid
+// :idはフォローする相手のid
 router.put("/:id/follow", async (req, res) => {
   // 自分はフォローできない
   if(req.body.userId !== req.params.id) {
     try {
-      console.log(req.params.id);
       const followedUser = await User.findById(req.params.id)
       const followingUser = await User.findById(req.body.userId)
 
@@ -72,12 +71,46 @@ router.put("/:id/follow", async (req, res) => {
         return res.status(403).json("error") 
       }
       
-
     } catch(err) {
       return res.status(500).json("error!")
     }
   } else {
     return res.status(500).json("cannot follow yourself.")
+  }
+  
+})
+
+// unfollow
+// :idはフォローする相手のid
+router.put("/:id/unfollow", async (req, res) => {
+  // 自分はフォロー解除できない
+  if(req.body.userId !== req.params.id) {
+    try {
+      const followedUser = await User.findById(req.params.id)
+      const followingUser = await User.findById(req.body.userId)
+
+      if(followedUser.followers.includes(req.body.userId)) {
+        await followedUser.updateOne({
+          $pull: {
+            followers: req.body.userId
+          }
+        })
+        await followingUser.updateOne({
+          $pull: {
+            followings: req.params.id
+          }
+        })
+        
+        return res.status(200).json("unfollowed") 
+      } else {
+        return res.status(403).json("error") 
+      }
+      
+    } catch(err) {
+      return res.status(500).json("error!")
+    }
+  } else {
+    return res.status(500).json("cannot unfollow yourself.")
   }
   
 })
