@@ -1,9 +1,9 @@
 const router = require("express").Router()
 const User = require("../models/User")
 
-
 // user update
 router.put("/:id", async (req, res) => {
+  // ログイン中またはDBの_idとreqのuserIdが同じの時
   if(req.body.userId === req.params.id || req.body.isAdmin) {
     try {
       await User.findByIdAndUpdate(req.params.id, {
