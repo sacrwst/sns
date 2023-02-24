@@ -9,8 +9,28 @@ router.post("/register", async (req, res) => {
       email: req.body.email,
       password: req.body.password,
     })
+    console.log("!!!");
     const user = await newUser.save()
     return res.status(200).json(user)
+  } catch(err) {
+    console.log("!!");
+    return res.status(500).json(err)
+  }
+})
+
+// ログイン
+router.post("/login", async (req, res) => {
+  try {
+    const user = await User.findOne({email: req.body.email})
+    if(!user) {
+      return res.status(400).send("見つかりません")
+    }
+    
+    const vailedPassword = req.body.password === user.password
+    if(!vailedPassword) res.status(400).send("パスワードがちがいます")
+
+    return res.status(200).json(user)
+
   } catch(err) {
     return res.status(500).json(err)
   }
