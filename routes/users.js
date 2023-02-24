@@ -60,6 +60,11 @@ router.put("/:id/follow", async (req, res) => {
             followers: req.body.userId
           }
         })
+        await currectUser.updateOne({
+          $push: {
+            followings: req.params.id
+          }
+        })
         
         return res.status(200).json("followed") 
       } else {
