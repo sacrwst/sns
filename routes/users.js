@@ -49,18 +49,19 @@ router.get("/:id", async (req, res) => {
 // フォローする相手のid
 router.put("/:id/follow", async (req, res) => {
   // 自分はフォローできない
-  if(req.body.userId !== req.params.userId) {
+  if(req.body.userId !== req.params.id) {
     try {
-      const user = await User.findById(req.params.id)
-      const currectUser = await User.findById(req.body.userId)
+      console.log(req.params.id);
+      const followedUser = await User.findById(req.params.id)
+      const followingUser = await User.findById(req.body.userId)
 
-      if(!user.followers.includes(req.body.userId)) {
-        await updateOne({
+      if(!followedUser.followers.includes(req.body.userId)) {
+        await followedUser.updateOne({
           $push: {
             followers: req.body.userId
           }
         })
-        await currectUser.updateOne({
+        await followingUser.updateOne({
           $push: {
             followings: req.params.id
           }
@@ -70,9 +71,10 @@ router.put("/:id/follow", async (req, res) => {
       } else {
         return res.status(403).json("error") 
       }
+      
 
     } catch(err) {
-      return res.status(500).json(err)
+      return res.status(500).json("error!")
     }
   } else {
     return res.status(500).json("cannot follow yourself.")
