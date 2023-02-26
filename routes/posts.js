@@ -16,6 +16,7 @@ router.put("/:id", async (req, res) => {
   try {
     // 対象の投稿を探す
     const post = await Post.findById(req.params.id) 
+    // 本人の投稿か確認
     if(post.userId === req.body.userId) {
       await post.updateOne({
         // 全て更新
