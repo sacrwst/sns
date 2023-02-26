@@ -11,11 +11,14 @@ router.post("/", async (req, res) => {
   }
 })
 
+// 投稿の更新
 router.put("/:id", async (req, res) => {
   try {
+    // 対象の投稿を探す
     const post = await Post.findById(req.params.id) 
     if(post.userId === req.body.userId) {
       await post.updateOne({
+        // 全て更新
         $set: req.body
       })
       return res.status(200).json("edited.")
