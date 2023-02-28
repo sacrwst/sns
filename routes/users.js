@@ -89,6 +89,7 @@ router.put("/:id/unfollow", async (req, res) => {
       const followedUser = await User.findById(req.params.id)
       const followingUser = await User.findById(req.body.userId)
 
+      // フォローされるユーザーの中にフォローするユーザーがすでにいない場合
       if(followedUser.followers.includes(req.body.userId)) {
         await followedUser.updateOne({
           $pull: {
