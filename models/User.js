@@ -45,11 +45,7 @@ const UserSchema = new mongoose.Schema(
     desc: {
       type: String,
       max: 70
-    },
-    city: {
-      type: String,
-      max: 50
-    },
+    }
   },
 
   {timestamps: true}
