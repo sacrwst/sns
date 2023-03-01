@@ -1,7 +1,7 @@
 const router = require("express").Router()
 const User = require("../models/User")
 
-// user update
+// update user
 router.put("/:id", async (req, res) => {
   // ログイン中またはDBの_idとreqのuserIdが同じの時
   if(req.body.userId === req.params.id || req.body.isAdmin) {
@@ -18,7 +18,7 @@ router.put("/:id", async (req, res) => {
   }
 })
 
-// user delete
+// delete user
 router.delete("/:id", async (req, res) => {
   if(req.body.userId === req.params.id || req.body.isAdmin) {
     try {
@@ -32,7 +32,7 @@ router.delete("/:id", async (req, res) => {
   }
 })
 
-// user get
+// get user
 router.get("/:id", async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
@@ -45,7 +45,7 @@ router.get("/:id", async (req, res) => {
   }
 })
 
-// follow
+// follow user
 // :idはフォローする相手のid
 router.put("/:id/follow", async (req, res) => {
   // 自分はフォローできない
