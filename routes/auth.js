@@ -34,10 +34,4 @@ router.post("/login", async (req, res) => {
   }
 })
 
-
-
-// router.get("/", (req, res) => {
-//   res.send("auth router")
-// })
-
 module.exports = router
