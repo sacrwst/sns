@@ -58,4 +58,21 @@ router.get("/:id", async (req, res) => {
   }
 })
 
+// 特定の投稿にいいね
+router.put("/:id/like", async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id)
+
+    await followedUser.updateOne({
+      $push: {
+        likes: req.body.userId
+      }
+    })
+
+  } catch(err) {
+    return res.status(500).json("error!")
+  }
+  
+})
+
 module.exports = router
